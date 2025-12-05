@@ -1,9 +1,14 @@
 const express = require('express');
-const { createUser } = require('../controllers/user.controller');
+const { createUser, getAllUsers, updateUser, deleteUser } = require('../controllers/user.controller');
 const { authenticateToken, authorizeRole } = require('../middleware/auth.middleware');
 
 const router = express.Router();
 
-router.post('/', authenticateToken, authorizeRole(['ADMIN']), createUser);
+router.use(authenticateToken, authorizeRole(['ADMIN']));
+
+router.post('/', createUser);
+router.get('/', getAllUsers);
+router.put('/:id', updateUser);
+router.delete('/:id', deleteUser);
 
 module.exports = router;
